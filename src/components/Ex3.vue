@@ -6,6 +6,10 @@
 
 <script>
     export default {
+        components: {
+            blogPost
+        },
+
         data() {
             return {
                 posts: [] // array of post objects
@@ -35,13 +39,28 @@
         methods: {
             deletePost(id) {
                 // TODO: Complete the delete method
-            }
-        }
+                axios.get(`${this.baseUrl}/deleteposts`,{
+                    params: {
+                        id: id
+                    }
+                })
+                .then(response => {
+                    // this gets the data, which is an array
+                    this.posts.filter(posts => posts.id!=id);
+                    console.log(response.data.message)
+                })
+                .catch(error => {
+                    this.posts = [{ entry: 'There was an error: ' + error.message }]
+                })
+            
+                }
+            }   
     }
 </script>
 
 <template>
-   <!-- TODO: make use of the 'blog-post' component to display the blog posts -->
-
+        <blog-post v-for="post in posts" :subject="post.subject" :entry="post.entry" :mood="post.mood" :key="post.id">
+            <button class="btn btn-primary" @click=deletePost(post.id)>Delete</button>
+        </blog-post>
 </template>
 

@@ -1,10 +1,14 @@
-<script>
+oka<script>
     // Import BlogPost component
     import blogPost from './subcomponents/BlogPost.vue'
 	import axios from 'axios'
     export default {
+        components: {
+            blogPost
+        }, 
         data() {
             return {
+
                 posts: [] // array of post objects
             }  
         },
@@ -34,6 +38,6 @@
 
 <template>
    <!-- TODO: make use of the 'blog-post' component to display the blog posts -->
-
+    <blog-post v-for="post in posts" :subject="post.subject" :entry="post.entry" :mood="post.mood" :key="post.id"></blog-post>
 </template>
 
